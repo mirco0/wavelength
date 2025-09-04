@@ -107,6 +107,7 @@ body {
 
 :root {
     --cool-blue-500: #48c7fb;
+    --needle-color: #fa2828;
     --cool-blue-300: #87ddff;
     --cool-blue-700: #2b2e4c;
     --bg-deep: #010625;
@@ -189,16 +190,15 @@ margin: 0 auto;
 .board::after {
 content: '';
 position: absolute;
-bottom: 0;
+bottom: -25px;
 left: 50%;
 transform: translateX(-50%);
-width: 10px;
-height: 10px;
+width: 50px;
+height: 50px;
 border-radius: 50%;
-background: var(--cool-blue-500);
-box-shadow: 0 0 18px rgba(72,199,251,0.8), 0 0 36px rgba(72,199,251,0.3);
+background: var(--needle-color);
+box-shadow: 0 0 18px rgba(251, 72, 72, 0.8), 0 0 36px rgba(255, 0, 0, 0.3);
 }
-
 .target-area {
 width: 420px;
 height: 210px;
@@ -221,13 +221,13 @@ cursor: pointer;
 .needle {
 position: absolute;
 bottom: 0;
-left: 50%;
+left: calc(50% - 2px);
 width: 4px;
 height: 200px;
-background: linear-gradient(180deg, var(--cool-blue-500), #1e90ff);
+background: var(--needle-color);
 transform-origin: bottom center;
 transition: transform 0.2s ease;
-box-shadow: 0 0 18px rgba(72, 199, 251, 0.5);
+box-shadow: 0 0 18px rgba(251, 72, 72, 0.5);
 }
 
 .clues-container {
@@ -429,8 +429,8 @@ margin-top: 1rem;
 background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
 margin: 8% auto;
 padding: 30px;
-width: 90%;
-max-width: 720px;
+width: 70%;
+/* max-width: 720px; */
 border-radius: 20px;
 border: 1px solid var(--panel-border);
 box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.08);
@@ -492,46 +492,79 @@ box-shadow: 0 10px 24px rgba(72, 199, 251, 0.2);
 
 .close-button:hover { background-color: var(--cool-blue-300); }
 
+.card.selected{
+  background: linear-gradient(180deg, rgba(0, 255, 4, 0.06), rgba(0, 245, 49, 0.03));
+}
+
+.card{
+  background: linear-gradient(180deg, rgba(255, 0, 0, 0.06), rgba(245, 0, 0, 0.03));
+}
+
+.card {
+  user-select: none;
+  -moz-user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 8% auto;
+  padding: 30px;
+  width: 200px;
+  /* max-width: 720px; */
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+  
+}
+
+.grid-pack {
+  display: grid;
+  grid-gap: 10px;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 280px);
+}
 @media (max-width: 768px) {
-.game-container {
-    width: 100%;
-    min-height: auto;
-    padding: 1rem;
-    border-radius: 0;
-    box-shadow: none;
-    border-left: none;
-    border-right: none;
+  .game-container {
+      width: 100%;
+      min-height: auto;
+      padding: 1rem;
+      border-radius: 0;
+      box-shadow: none;
+      border-left: none;
+      border-right: none;
+  }
+
+  .board {
+      width: 300px;
+      height: 150px;
+      margin: 0 auto;
+  }
+
+  .target-area {
+      width: 300px;
+      height: 150px;
+  }
+
+  .needle {
+      height: 130px;
+      left: calc(50% - 2px);
+  }
+
+  .title { font-size: 32px; }
+  .subtitle { font-size: 18px; }
+  .clues { font-size: 18px; }
+
+  button {
+      font-size: 14px;
+      padding: 10px 16px;
+  }
+
+  .modal-content {
+      margin: 20% auto;
+      padding: 20px;
+  }
+
+  .modal h2 { font-size: 24px; }
+  .modal-body { font-size: 14px; }
 }
-
-.board {
-    width: 300px;
-    height: 150px;
-    margin: 0 auto;
-}
-
-.target-area {
-    width: 300px;
-    height: 150px;
-}
-
-.needle {
-    height: 130px;
-    left: calc(50% - 2px);
-}
-
-.title { font-size: 32px; }
-.subtitle { font-size: 18px; }
-.clues { font-size: 18px; }
-
-button {
-    font-size: 14px;
-    padding: 10px 16px;
-}
-
-.modal-content {
-    margin: 20% auto;
-    padding: 20px;
-}
-
-.modal h2 { font-size: 24px; }
-.modal-body { font-size: 14px; }

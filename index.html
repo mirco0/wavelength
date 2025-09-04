@@ -7,55 +7,68 @@
     <title>Wavelength Game</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="index.css">
-    <!-- All styles moved to index.css -->
+    <script type="text/javascript" src="cards/cards.js"></script>
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
     <div id="howToPlayModal" class="modal">
-            <div class="modal-content">
-                <h2>How to Play Wavelength</h2>
+        <div class="modal-content">
+                <h2>Come giocare a Wavelength</h2>
                 <div class="modal-body">
                     <ol>
-                        <li>A pair of opposing concepts will be displayed.</li>
-                        <li>The Psychic gives a clue where the target is located
-                            ON THE SPECTRUM between the two concepts</li>
+                        <li>Una coppia di concetti opposti è mostrata.</li>
+                        <li>Lo Psychic dà un indizio su dove l'obiettivo è posto 
+                            sullo spettro tra i due concetti</li>
                         <ul>
-                            <li>For example between HOT and COLD</li>
-                            <li>The Psychic can say something like COFFEE!</li>
+                            <li>Per esempio tra BOLLENTE e FREDDO</li>
+                            <li>Lo Psychic può dire qualcosa come CAFFÉ!</li>
                         </ul>
-                        <li>Now it’s up to the Psychic’s team to discuss the
-                            clue and decide where to turn the dial</li>
-                        <li>Click and drag the needle to set your guess.</li>
-                        <li>Click "Hide Target" to lock in your guess.</li>
-                        <li>Click "Reveal Target" to see how close you were.</li>
+                        <li>Ora tocca alla squadra dello Psychic discutere l'indizio
+                            e decidere dove girare la lancetta</li>
+                        <li>Premi e trascina la lancetta per impostare la tua scelta.</li>
+                        <li>Premi "Nascondi" per bloccare la scelta.</li>
+                        <li>Premi "Mostra" Per vedere quanto la risposta è vicina all'obiettivo.</li>
                         <li>Scoring:
                             <ul>
-                                <li><span class="score-5">5 points:</span> Bull's eye (dark blue)</li>
-                                <li><span class="score-3">3 points:</span> Close (yellow)</li>
-                                <li><span class="score-1">1 point:</span> Near (red)</li>
-                                <li><span class="score-0">0 points:</span> Miss</li>
+                                <li><span class="score-5">5 punti:</span> Perfetto (dark blue)</li>
+                                <li><span class="score-3">3 punti:</span> Vicino (yellow)</li>
+                                <li><span class="score-1">1 punto:</span> Quasi (red)</li>
+                                <li><span class="score-0">0 punti:</span> Mancato</li>
                             </ul>
                         </li>
-                        <li>Click "Next Round" to continue or "New Game" to start over.</li>
+                        <li>Premi "Prossimo" per continuare o "Rigioca" per ricominciare.</li>
                     </ol>
                 </div>
-                <button class="close-button">Got it!</button>
+                <button class="close-button">Capito!</button>
+            </div>
+        </div>
+
+    <div id="packsModal" class="modal">
+        <div class="modal-content">
+                <h1>Pacchetti</h1>
+                <div class="modal-body">
+                    <ul class="grid-pack"></ul>
+                </div>
+                <button class="close-button">Fatto!</button>
             </div>
         </div>
     <div id="teamSetup" class="team-setup">
     <img src="assets/wavelength.svg" alt="Wavelength" class="logo" />
-        <h2>Team Setup</h2>
+        <h2>Imposta squadre</h2>
                 <div class="team-count">
-                        <label for="teamCount">Number of Teams (1-5):</label>
+                        <label for="teamCount">Numero squadre (1-5):</label>
                         <div class="stepper" aria-label="Number of Teams">
                             <button type="button" class="teamCountButtons" id="decTeams" aria-label="Decrease teams">–</button>
-                            <input type="number" id="teamCount" min="1" max="5" value="2" aria-live="polite">
+                            <input type="number" id="teamCount" min="1" max="5" value="1" aria-live="polite">
                             <button type="button" class="teamCountButtons" id="incTeams" aria-label="Increase teams">+</button>
                         </div>
                 </div>
         <div id="teamNames"></div>
-    <button id="startGame" class="button-primary">Start Game</button>
-    <button id="howToPlayButton" class="how-to-play button-outline">How to Play</button>
+    <button id="startGame" class="button-primary">Inizia</button>
+    <button id="packsButton" class="button-primary">Pacchetti</button>
+    <button id="howToPlayButton" class="how-to-play button-outline">Come giocare</button>
     </div>
     <div class="game-container">
     <img src="assets/wavelength.svg" alt="Wavelength" class="logo" />
@@ -71,395 +84,20 @@
             <div class="clue" id="rightClue"></div>
         </div>
         <div class="controls">
-            <button id="toggleButton" class="button-primary">Hide Target</button>
-            <button id="nextRoundButton" class="button-primary">Next Round</button>
+            <button id="toggleButton" class="button-primary">Nascondi</button>
+            <button id="nextRoundButton" class="button-primary">Prossimo Round</button>
             <button id="newGameButton" class="button-primary">
-                New Game
+                Rigioca
             </button>
 
         </div>
             <div id="score" class="text-cool-blue-500"></div>
-        <div id="totalScore">Total Score: 0</div>
+        <div id="totalScore">Punteggio: 0</div>
 
-        <script>
-            const needleContainer = document.getElementById("needleContainer");
-            const needle = document.getElementById("needle");
-            const targetArea = document.getElementById("targetArea");
-            const toggleButton = document.getElementById("toggleButton");
-            const nextRoundButton = document.getElementById("nextRoundButton");
-            const newGameButton = document.getElementById("newGameButton");
-            const cluesElement = document.getElementById("clues");
-            const scoreElement = document.getElementById("score");
-            const totalScoreElement = document.getElementById("totalScore");
+        <script type="text/javascript" src="modals.js"></script>
+        <script type="text/javascript" src="settings.js"></script>
+        <script type="text/javascript" src="game.js"></script>
 
-            let isDragging = false;
-            let targetAngle = 0;
-            let isTargetVisible = true;
-            let totalScore = 0;
-            let canMoveNeedle = false;
-
-            const clues = [
-                ["Bad Company", "Good Company"],
-                ["Terrible Movie", "Great Movie"],
-                ["Forgettable Person", "Memorable Person"],
-                ["Culturally Insignificant", "Culturally Significant"],
-                ["Dry Food", "Wet Food"],
-                ["Easy to Do", "Hard to Do"],
-                ["Feels Bad", "Feels Good"],
-                ["Hairless", "Hairy"],
-                ["Hard to Remember", "Easy to Remember"],
-                ["Cold", "Hot"],
-                ["Inflexible", "Flexible"],
-                ["Clean Food", "Messy Food"],
-                ["Proper Utensil Food", "Finger Food"],
-                ["Want", "Need"],
-                ["Weird Thing to Own", "Normal Thing to Own"],
-                ["Poorly Made", "Well Made"],
-                ["Quiet Place", "Loud Place"],
-                ["Common", "Rare"],
-                ["Bad Influence", "Role Model"],
-                ["Pointy Animal", "Round Animal"],
-                ["Hard", "Soft"],
-                ["Ugly", "Beautiful"],
-                ["Underpaid Job", "Overpaid Job"],
-                ["Underrated Skill", "Overrated Skill"],
-                ["Unsexy Emoji", "Sexy Emoji"],
-                ["Useless", "Useful"],
-                ["Villain", "Hero"],
-                ["Worst Day Ever", "Best Day Ever"],
-                ["Boring Hobby", "Exciting Hobby"],
-                ["Useless Superpower", "Awesome Superpower"],
-                ["Lame Party Trick", "Cool Party Trick"],
-                ["Terrible First Date Spot", "Perfect First Date Spot"],
-                ["Awkward Conversation Topic", "Engaging Conversation Topic"],
-                ["Worst Pizza Topping", "Best Pizza Topping"],
-                ["Annoying Sound", "Satisfying Sound"],
-                ["Uncomfortable Clothing", "Comfy Clothing"],
-                ["Worst Smell", "Best Smell"],
-                ["Boring Class Subject", "Fascinating Class Subject"],
-                ["Terrible Gift", "Thoughtful Gift"],
-                ["Unhealthy Habit", "Healthy Habit"],
-                ["Worst Chore", "Most Satisfying Chore"],
-                ["Forgettable Song", "Catchy Song"],
-                ["Useless App", "Must-Have App"],
-                ["Terrible Supervillain Name", "Awesome Superhero Name"],
-                ["Worst Flavor", "Best Flavor"],
-                ["Boring Museum Exhibit", "Mind-Blowing Museum Exhibit"],
-                ["Terrible Band Name", "Awesome Band Name"],
-                ["Worst Yearbook Quote", "Best Yearbook Quote"],
-                ["Lame Excuse", "Believable Excuse"],
-                ["Terrible Mascot", "Lovable Mascot"],
-                ["Worst Invention", "Life-Changing Invention"],
-                ["Annoying Commercial", "Memorable Commercial"],
-                ["Terrible Pickup Line", "Smooth Pickup Line"],
-                ["Worst Sandwich Filling", "Best Sandwich Filling"],
-                ["Boring Screensaver", "Hypnotic Screensaver"],
-                ["Useless Life Hack", "Game-Changing Life Hack"],
-                ["Terrible Sitcom Premise", "Hilarious Sitcom Premise"],
-                ["Worst Karaoke Song", "Crowd-Pleasing Karaoke Song"],
-                ["Annoying Social Media Trend", "Fun Social Media Trend"],
-                ["Terrible Stage Name", "Unforgettable Stage Name"],
-                ["Worst Tongue Twister", "Most Challenging Tongue Twister"],
-                ["Boring Screensaver", "Mesmerizing Screensaver"],
-                ["Terrible Tattoo", "Meaningful Tattoo"],
-                ["Worst Bumper Sticker", "Clever Bumper Sticker"],
-                ["Annoying Catchphrase", "Iconic Catchphrase"],
-                ["Terrible Team Name", "Intimidating Team Name"],
-                [
-                    "Worst Flavor Combination",
-                    "Unexpectedly Delicious Flavor Combination",
-                ],
-                ["Useless College Course", "Life-Changing College Course"],
-                ["Terrible Podcast Topic", "Binge-Worthy Podcast Topic"],
-                ["Worst Theme Park Ride", "Thrilling Theme Park Ride"],
-                ["Annoying Pet Trick", "Impressive Pet Trick"],
-                ["Terrible Workout", "Effective Workout"],
-                ["Worst Board Game", "Addictive Board Game"],
-                ["Annoying Habit", "Endearing Quirk"],
-                ["Terrible Prank", "Harmless Prank"],
-                ["Worst Cereal Mascot", "Beloved Cereal Mascot"],
-                ["Annoying Alarm Sound", "Gentle Wake-Up Alarm"],
-                ["Terrible Vacation Spot", "Dream Vacation Destination"],
-                ["Worst Toy", "Must-Have Toy"],
-                ["Annoying TV Character", "Fan-Favorite TV Character"],
-                ["Terrible Superpower Side Effect", "Awesome Superpower Perk"],
-                ["Worst Ice Cream Flavor", "Innovative Ice Cream Flavor"],
-                ["Annoying Text Abbreviation", "Useful Text Abbreviation"],
-                ["Terrible Costume Idea", "Creative Costume Idea"],
-                ["Worst Cooking Mistake", "Game-Changing Cooking Tip"],
-                ["Annoying Exercise", "Fun Exercise"],
-                ["Terrible Breakup Method", "Respectful Breakup Method"],
-                ["Worst Motivational Poster", "Actually Motivating Poster"],
-                ["Annoying Car Feature", "Useful Car Feature"],
-                ["Terrible Hiding Spot", "Clever Hiding Spot"],
-                ["Worst Trend from Your Parents' Era", "Cool Retro Trend"],
-                ["Annoying Tourist Behavior", "Respectful Tourist Behavior"],
-                ["Terrible Roommate Habit", "Ideal Roommate Quality"],
-                ["Worst Reason to Call in Sick", "Legitimate Reason to Call in Sick"],
-                ["Annoying Phone Notification", "Important Phone Notification"],
-                ["Terrible Boat Name", "Clever Boat Name"],
-                ["Worst Reason to Break Up", "Valid Reason to Break Up"],
-                ["Annoying Gym Behavior", "Proper Gym Etiquette"],
-                ["Terrible Airline", "Top-Rated Airline"],
-                ["Worst Bathroom Graffiti", "Profound Bathroom Graffiti"],
-                ["Annoying Concert Behavior", "Considerate Concert Behavior"],
-                ["Terrible Hogwarts House", "Best Hogwarts House"],
-                ["Worst Reason to Get a Pet", "Great Reason to Get a Pet"],
-                [
-                    "Annoying Email Subject Line",
-                    "Attention-Grabbing Email Subject Line",
-                ],
-                ["Terrible Wifi Network Name", "Clever Wifi Network Name"],
-            ];
-
-            const teamSetup = document.getElementById('teamSetup');
-            const teamCount = document.getElementById('teamCount');
-            const teamNames = document.getElementById('teamNames');
-            const startGameButton = document.getElementById('startGame');
-            const gameContainer = document.querySelector('.game-container');
-
-            let teams = [];
-
-            teamCount.addEventListener('change', updateTeamInputs);
-            document.getElementById('decTeams').addEventListener('click', () => {
-                teamCount.value = Math.max(parseInt(teamCount.min), parseInt(teamCount.value || 1) - 1);
-                updateTeamInputs();
-            });
-            document.getElementById('incTeams').addEventListener('click', () => {
-                teamCount.value = Math.min(parseInt(teamCount.max), parseInt(teamCount.value || 1) + 1);
-                updateTeamInputs();
-            });
-
-            function updateTeamInputs() {
-                const count = parseInt(teamCount.value);
-                teamNames.innerHTML = '';
-                for (let i = 0; i < count; i++) {
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.placeholder = `Team ${i + 1} Name`;
-                    input.className = 'team-name-input';
-                    teamNames.appendChild(input);
-                }
-            }
-
-            let currentTeamIndex = 0;
-
-            function updateScoreDisplay() {
-                const chips = teams.map((team, index) => {
-                    const cls = index === currentTeamIndex ? 'current-team' : '';
-                    return `<div class="${cls}">${team.name}: ${team.score}</div>`;
-                }).join('');
-                totalScoreElement.innerHTML = chips;
-            }
-
-            startGameButton.addEventListener('click', () => {
-                teams = Array.from(teamNames.children).map(input => ({
-                    name: input.value || input.placeholder,
-                    score: 0
-                }));
-                teamSetup.style.display = 'none';
-                gameContainer.style.display = 'block';
-                updateScoreDisplay();
-            });
-
-            // Initialize with 2 teams
-            updateTeamInputs();
-
-            // Hide game container initially
-            gameContainer.style.display = 'none';
-
-            function setTargetArea() {
-                targetAngle = Math.random() * 180 - 90;
-                const gradient = `conic-gradient(
-                from -90deg at 50% 100%,
-                #a4b0be 0deg ${targetAngle - 22.5 + 90}deg,
-                #ff6b6b ${targetAngle - 22.5 + 90}deg ${targetAngle - 13.5 + 90
-                    }deg,
-                #feca57 ${targetAngle - 13.5 + 90}deg ${targetAngle - 4.5 + 90
-                    }deg,
-                var(--cool-blue-500) ${targetAngle - 4.5 + 90}deg ${targetAngle + 4.5 + 90
-                    }deg,
-                #feca57 ${targetAngle + 4.5 + 90}deg ${targetAngle + 13.5 + 90
-                    }deg,
-                #ff6b6b ${targetAngle + 13.5 + 90}deg ${targetAngle + 22.5 + 90
-                    }deg,
-                #a4b0be ${targetAngle + 22.5 + 90}deg 180deg
-            )`;
-                targetArea.style.background = gradient;
-            }
-
-            function setRandomClues() {
-                const randomIndex = Math.floor(Math.random() * clues.length);
-                const [left, right] = clues[randomIndex];
-                document.getElementById("leftClue").textContent = left;
-                document.getElementById("rightClue").textContent = right;
-            }
-
-            function calculateScore(angle) {
-                const diff = Math.abs(angle - targetAngle);
-                if (diff <= 4.5) {
-                    triggerConfetti();
-                    return 5
-                };
-                if (diff <= 13.5) return 3;
-                if (diff <= 22.5) return 1;
-                return 0;
-            }
-
-            function handleStart(e) {
-                if (!canMoveNeedle) return;
-                isDragging = true;
-                e.preventDefault(); // Prevent default touch behavior
-            }
-
-            function triggerConfetti() {
-                confetti({
-                    particleCount: 160,
-                    spread: 90,
-                    origin: { y: 0.6 },
-                    colors: ['#48c7fb', '#87ddff', '#2b2e4c', '#ffffff'],
-                    ticks: 200,
-                    shapes: ['square', 'circle'],
-                    gravity: 0.85,
-                    scalar: 1.1
-                });
-            }
-
-            function handleMove(e) {
-                if (!isDragging || !canMoveNeedle) return;
-                e.preventDefault(); // Prevent default touch behavior
-                const rect = needleContainer.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.bottom;
-
-                let clientX, clientY;
-                if (e.type === "touchmove") {
-                    clientX = e.touches[0].clientX;
-                    clientY = e.touches[0].clientY;
-                } else {
-                    clientX = e.clientX;
-                    clientY = e.clientY;
-                }
-
-                const angle =
-                    (Math.atan2(clientX - centerX, centerY - clientY) * 180) / Math.PI;
-                const clampedAngle = Math.max(-90, Math.min(90, angle));
-                needle.style.transform = `rotate(${clampedAngle}deg)`;
-            }
-
-            function handleEnd() {
-                isDragging = false;
-            }
-
-            function hideNeedle() {
-                needle.style.display = "none";
-            }
-
-            function showNeedle() {
-                needle.style.display = "block";
-            }
-
-            const modal = document.getElementById("howToPlayModal");
-            const howToPlayButton = document.getElementById("howToPlayButton");
-            const closeButton = modal.querySelector(".close-button");
-
-            howToPlayButton.onclick = function () {
-                modal.style.display = "block";
-                setTimeout(() => modal.classList.add("show"), 10);
-            }
-
-            closeButton.onclick = function () {
-                modal.classList.remove("show");
-                setTimeout(() => modal.style.display = "none", 300);
-            }
-
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.classList.remove("show");
-                    setTimeout(() => modal.style.display = "none", 300);
-                }
-            }
-
-            // Mouse events
-            needleContainer.addEventListener("mousedown", handleStart);
-            document.addEventListener("mousemove", handleMove);
-            document.addEventListener("mouseup", handleEnd);
-
-            // Touch events
-            needleContainer.addEventListener("touchstart", handleStart);
-            document.addEventListener("touchmove", handleMove);
-            document.addEventListener("touchend", handleEnd);
-
-            toggleButton.addEventListener("click", () => {
-                isTargetVisible = !isTargetVisible;
-                targetArea.style.display = isTargetVisible ? "block" : "none";
-                if (!isTargetVisible) {
-                    toggleButton.textContent = "Reveal Target";
-                    scoreElement.textContent = "";
-                    showNeedle();
-                    canMoveNeedle = true; // Allow needle movement when target is hidden
-                } else {
-                    toggleButton.style.display = "none";
-                    const needleAngle =
-                        parseFloat(
-                            needle.style.transform.replace("rotate(", "").replace("deg)", "")
-                        ) || 0;
-                    const score = calculateScore(needleAngle);
-                    totalScore += score;
-                    scoreElement.textContent = `Score: ${score} points`;
-                    totalScoreElement.textContent = `Total Score: ${totalScore}`;
-                    canMoveNeedle = false; // Disable needle movement when target is revealed
-                }
-                if (isTargetVisible) {
-                    const needleAngle = parseFloat(needle.style.transform.replace("rotate(", "").replace("deg)", "")) || 0;
-                    const score = calculateScore(needleAngle);
-                    teams[currentTeamIndex].score += score;
-                    scoreElement.textContent = `${teams[currentTeamIndex].name} scored: ${score} points`;
-                    updateScoreDisplay();
-                    if (score === 5) {
-                        triggerConfetti();
-                    }
-                }
-            });
-
-            nextRoundButton.addEventListener("click", () => {
-                setTargetArea();
-                setRandomClues();
-                isTargetVisible = true;
-                targetArea.style.display = "block";
-                toggleButton.textContent = "Hide Target";
-                toggleButton.style.display = "inline-block";
-                needle.style.transform = "rotate(0deg)";
-                scoreElement.textContent = "";
-                hideNeedle();
-                canMoveNeedle = false; // Re-enable needle movement for the next round
-                currentTeamIndex = (currentTeamIndex + 1) % teams.length;
-                updateScoreDisplay();
-            });
-
-            newGameButton.addEventListener("click", () => {
-                teams.forEach(team => team.score = 0);
-                currentTeamIndex = 0;
-                totalScore = 0;
-                setTargetArea();
-                setRandomClues();
-                isTargetVisible = true;
-                targetArea.style.display = "block";
-                toggleButton.textContent = "Hide Target";
-                toggleButton.style.display = "inline-block";
-                needle.style.transform = "rotate(0deg)";
-                scoreElement.textContent = "";
-                totalScoreElement.textContent = "Total Score: 0";
-                hideNeedle();
-                updateScoreDisplay();
-            });
-
-            // Initialize the game
-            setTargetArea();
-            setRandomClues();
-            hideNeedle();
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </body>
 
 </html>
